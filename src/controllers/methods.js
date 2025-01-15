@@ -11,8 +11,7 @@ async function get(req, res){
     res.send(products)
 }
 
-//função para criar o método post
-
+//função para criar o método post, recebe os itens
 async function post(req, res){
     const{
         name,
@@ -34,10 +33,22 @@ async function post(req, res){
     })
 }
 
+//função para atualizar os itens por ID
+async function put(req, res){
+    const {id} = req.params // salva o ID di item
 
+    const product = await ProductsModel.findOneAndUpdate({ _id: id}, req.body, { new: true})
+
+    res.send({
+        message: 'success',
+        product
+    })
+    
+}
 
 
 module.exports = {
     get,
     post,
+    put,
 }
