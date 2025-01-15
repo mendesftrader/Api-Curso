@@ -2,7 +2,7 @@ const ProductsModel = require('../models/products')
 
 // função para localizar os itens pelo ID método get
 async function get(req, res){
-    const {id} = req.params
+    const {id} = req.params //pega o id de um item
 
     const obj = id ? { _id: id} : null
 
@@ -35,7 +35,7 @@ async function post(req, res){
 
 //função para atualizar os itens por ID
 async function put(req, res){
-    const {id} = req.params // salva o ID di item
+    const {id} = req.params // //pega o id de um item
 
     const product = await ProductsModel.findOneAndUpdate({ _id: id}, req.body, { new: true})
 
@@ -46,9 +46,23 @@ async function put(req, res){
     
 }
 
+async function remove(req, res){
+    const {id} = req.params //pega o id de um item
+
+    const remove = await ProductsModel.deleteOne({ _id: id })
+   
+    const message = remove.deletedCount === 1 ? 'succes' : 'error' //if ternário
+   
+    res.send({
+        message,
+    }) 
+   
+}
+
 
 module.exports = {
     get,
     post,
     put,
+    remove
 }
